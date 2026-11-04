@@ -97,6 +97,9 @@ h2{font-family:var(--mono);font-weight:500;font-size:12.5px;letter-spacing:.14em
     <h1>Abra pelo seu link</h1>
     <p>Este aparelho ainda não tem a chave da casa. Abra o link pessoal que a Vicky mandou no Project; ele guarda a chave aqui e some da barra de endereço.</p>
     <p>Depois, no Safari: Compartilhar → Adicionar à Tela de Início.</p>
+    <p>No ícone da tela de início, cole o link pessoal aqui:</p>
+    <input id="kIn" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://zezitopires.github.io/Vicky/#k=…" style="width:100%;font:16px var(--mono);padding:12px;border-radius:12px;border:1px solid var(--line2);background:var(--raise);color:var(--fg);margin-top:6px">
+    <button class="btn primary" id="kBtn" type="button" style="margin-top:10px">Entrar</button>
   </div>
 
   <main id="app" hidden>
@@ -149,6 +152,11 @@ function store(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===n
 var m=location.hash.match(/k=([A-Za-z0-9_\-]{20,})/);
 if(m){store("vicky_chave",m[1]);history.replaceState(null,"",location.pathname)}
 var KEY=store("vicky_chave");
+$("kBtn").addEventListener("click",function(){
+  var v=($("kIn").value||"").trim(),mm=v.match(/k=([A-Za-z0-9_\-]{20,})/)||v.match(/^([A-Za-z0-9_\-]{20,})$/);
+  if(!mm){$("kIn").style.borderColor="var(--agir)";return}
+  store("vicky_chave",mm[1]);location.replace(location.pathname);
+});
 if(!KEY){$("gate").hidden=false;return}
 $("app").hidden=false;
 
