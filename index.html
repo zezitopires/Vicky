@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Vicky</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vicky">
+<meta name="theme-color" content="#0A0C0F">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Uma coluna, tela cheia, tudo grande para o dedo: a bola no topo, a casa embaixo. Escuro primeiro, champanhe como único acento. */
+:root{
+  --bg:#0A0C0F;--surface:#111419;--raise:#171B21;--line:#252A33;--line2:#323845;
+  --fg:#ECE7DF;--muted:#8E939C;--faint:#5E636C;
+  --gold:#CDAE74;--gold2:#E6CF9E;--wash:rgba(205,174,116,.10);
+  --agir:#E07257;--esp:#8FA6C8;--saber:#8DAE96;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --body:"Geist",-apple-system,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,Menlo,monospace;
+  --r:16px;color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root{
+  --bg:#F3F0EA;--surface:#FFFFFF;--raise:#FAF8F4;--line:#E3DED4;--line2:#D3CDC1;
+  --fg:#16171A;--muted:#696C72;--faint:#9A9CA1;
+  --gold:#8A672A;--gold2:#6F521F;--wash:rgba(138,103,42,.08);
+  --agir:#B4472D;--esp:#3E5E89;--saber:#3C7152;color-scheme:light}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{font:17px/1.5 var(--body);-webkit-font-smoothing:antialiased;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));
+  padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.wrap{max-width:720px;margin:0 auto}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:10px}
+
+header{display:flex;align-items:baseline;gap:12px;padding-block:14px 6px}
+.mark{font-family:var(--display);font-style:italic;font-weight:500;font-size:34px;line-height:1}
+.clock{margin-left:auto;font-family:var(--mono);font-size:14px;color:var(--muted)}
+.clock b{color:var(--fg);font-weight:500}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--line2);margin-right:6px;vertical-align:1px}
+.dot.ok{background:var(--saber)}.dot.err{background:var(--agir)}
+
+.stage{display:flex;flex-direction:column;align-items:center;gap:10px;padding-block:8px 6px}
+.orbbtn{border:0;background:none;padding:0;border-radius:50%;line-height:0;-webkit-tap-highlight-color:transparent}
+#orb{width:min(64vw,300px);height:min(64vw,300px);display:block}
+.state{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.said{min-height:3.2em;max-width:600px;text-align:center;font-family:var(--display);font-size:clamp(20px,5vw,25px);line-height:1.3;text-wrap:balance;margin:0}
+.said:empty,.heard:empty{min-height:0;margin:0}
+.heard{min-height:1.4em;max-width:560px;text-align:center;color:var(--muted);font-size:15px;margin:0}
+.ctl{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.btn{border:1px solid var(--line2);background:var(--raise);border-radius:999px;padding:12px 20px;min-height:48px;font-size:16px}
+.btn.primary{background:var(--gold);border-color:var(--gold);color:var(--bg);font-weight:600}
+.btn[disabled]{opacity:.5}
+
+section{margin-top:28px}
+h2{font-family:var(--mono);font-weight:500;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;display:flex;justify-content:space-between}
+.list{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.it{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:12px;padding:14px 16px;border-top:1px solid var(--line);align-items:start}
+.it:first-child{border-top:0}
+.it .d{width:9px;height:9px;border-radius:50%;margin-top:8px;background:var(--esp)}
+.it.AGIR .d{background:var(--agir)}.it.SABER .d{background:var(--saber)}
+.it .t{font-size:17px;line-height:1.35;font-weight:500}
+.it .m{font-size:14.5px;color:var(--muted);margin-top:2px}
+.it .a{font-family:var(--mono);font-size:13px;color:var(--faint);white-space:nowrap;margin-top:3px}
+.ev{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
+.ev:first-child{border-top:0}
+.ev .h{font-family:var(--mono);font-size:14px;color:var(--gold)}
+.ev .t{font-size:16.5px;line-height:1.35}
+.ev .m{font-size:14px;color:var(--muted)}
+.empty{padding:16px;color:var(--muted);font-size:15px}
+.note{font-size:13.5px;color:var(--faint);margin:8px 2px 0}
+.gate{margin-top:40px;padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.gate h1{font-family:var(--display);font-weight:500;font-size:28px;margin:0 0 8px}
+.gate p{color:var(--muted);margin:6px 0}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="mark">Vicky</span>
+    <span class="clock" id="clock"></span>
+  </header>
+
+  <div id="gate" class="gate" hidden>
+    <h1>Abra pelo seu link</h1>
+    <p>Este aparelho ainda não tem a chave da casa. Abra o link pessoal que a Vicky mandou no Project; ele guarda a chave aqui e some da barra de endereço.</p>
+    <p>Depois, no Safari: Compartilhar → Adicionar à Tela de Início.</p>
+  </div>
+
+  <main id="app" hidden>
+    <div class="stage">
+      <button class="orbbtn" id="orbBtn" type="button" aria-label="Falar com a Vicky"><canvas id="orb" width="600" height="600"></canvas></button>
+      <div class="state" id="state">toque para falar</div>
+      <p class="said" id="said"></p>
+      <p class="heard" id="heard"></p>
+      <div class="ctl">
+        <button class="btn primary" id="talkBtn" type="button">Falar</button>
+        <button class="btn" id="muteBtn" type="button" hidden>Silenciar microfone</button>
+      </div>
+    </div>
+
+    <section>
+      <h2><span>Agora</span><span id="srcLine"><i class="dot" id="srcDot"></i><span id="srcTx">lendo…</span></span></h2>
+      <div class="list" id="now"></div>
+    </section>
+
+    <section>
+      <h2><span>Agenda</span><span id="agAge"></span></h2>
+      <div class="list" id="agenda"></div>
+    </section>
+
+    <section>
+      <h2><span>Rotinas, 7 dias</span></h2>
+      <div class="list" id="rot"></div>
+    </section>
+
+    <section id="doneSec" hidden>
+      <h2><span>Resolvido em 48 h</span></h2>
+      <div class="list" id="done"></div>
+    </section>
+
+    <p class="note">Leitura e voz pela chave deste aparelho. Patrimônio e e-mails ficam no Project Vicky.</p>
+  </main>
+</div>
+
+<script src="https://unpkg.com/@elevenlabs/client@1.29.0/dist/lib.iife.js"></script>
+<script>
+(function(){
+"use strict";
+var AGENT="agent_8001m5nhrbs5fy5awdcfsn0cqrcs";
+var BRIDGE="https://nsajptkojmbybzlarohx.supabase.co/functions/v1/vicky-voz";
+var TZ="America/Sao_Paulo";
+var $=function(id){return document.getElementById(id)};
+
+/* ---------- chave do aparelho: chega uma vez pelo #k= e fica guardada ---------- */
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
+var m=location.hash.match(/k=([A-Za-z0-9_\-]{20,})/);
+if(m){store("vicky_chave",m[1]);history.replaceState(null,"",location.pathname)}
+var KEY=store("vicky_chave");
+if(!KEY){$("gate").hidden=false;return}
+$("app").hidden=false;
+
+/* ---------- relógio BRT ---------- */
+function clock(){var d=new Date();
+  var w=d.toLocaleDateString("pt-BR",{timeZone:TZ,weekday:"short",day:"2-digit",month:"2-digit"});
+  var h=d.toLocaleTimeString("pt-BR",{timeZone:TZ,hour:"2-digit",minute:"2-digit"});
+  $("clock").innerHTML=w.replace(".","")+" · <b>"+h+"</b> BRT"}
+clock();setInterval(clock,20000);
+
+/* ---------- a casa ---------- */
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function hm(iso){try{return new Date(iso).toLocaleTimeString("pt-BR",{timeZone:TZ,hour:"2-digit",minute:"2-digit"})}catch(e){return""}}
+function dia(iso){try{return new Date(iso).toLocaleDateString("pt-BR",{timeZone:TZ,weekday:"short",day:"2-digit",month:"2-digit"}).replace(".","")}catch(e){return""}}
+function hojeBRT(){return new Date().toLocaleDateString("en-CA",{timeZone:TZ})}
+function diaBRT(iso){try{return new Date(iso).toLocaleDateString("en-CA",{timeZone:TZ})}catch(e){return""}}
+var ORD={AGIR:0,ESPERANDO:1,SABER:2};
+
+function render(c){
+  var ab=(c.abertas||[]).slice().sort(function(a,b){return (ORD[a.prioridade]-ORD[b.prioridade])||((a.prazo||"9")<(b.prazo||"9")?-1:1)});
+  $("now").innerHTML=ab.length?ab.map(function(p){
+    var meta=[p.entidade,p.com_quem?("com "+p.com_quem):"",p.prazo?("prazo "+p.prazo.split("-").reverse().slice(0,2).join("/")):""].filter(Boolean).join(" · ");
+    return '<div class="it '+esc(p.prioridade)+'"><i class="d"></i><div><div class="t">'+esc(p.titulo)+'</div><div class="m">'+esc(meta)+'</div></div><span class="a">'+esc(p.prioridade==="AGIR"?"você":p.prioridade==="ESPERANDO"?"terceiros":"saber")+(p.idade_dias!=null?" · "+p.idade_dias+"d":"")+'</span></div>'}).join("")
+    :'<div class="empty">Nada pede você agora.</div>';
+  var hoje=hojeBRT();
+  var ag=(c.agenda||[]).filter(function(e){return diaBRT(e.inicio)>=hoje});
+  var seen={};ag=ag.filter(function(e){var k=e.inicio+"|"+(e.t||"").trim().toLowerCase();if(seen[k])return false;seen[k]=1;return true});
+  $("agenda").innerHTML=ag.length?ag.slice(0,8).map(function(e){
+    var d=diaBRT(e.inicio)===hoje?"hoje":dia(e.inicio);
+    return '<div class="ev"><div class="h">'+(e.dia_todo?"dia":hm(e.inicio))+'<div class="m">'+esc(d)+'</div></div><div><div class="t">'+esc(e.t)+'</div><div class="m">'+esc((e.local||"").split("\n")[0])+'</div></div></div>'}).join("")
+    :'<div class="empty">Nenhum compromisso no radar.</div>';
+  $("agAge").textContent=c.agenda_atualizada_em?("cópia de "+c.agenda_atualizada_em):"";
+  var ro=c.rotinas_7d||[];
+  $("rot").innerHTML=ro.length?ro.map(function(r){return '<div class="it SABER"><i class="d"></i><div><div class="t">'+esc(r.nome)+'</div><div class="m">'+esc(r.entidade||"")+'</div></div><span class="a">'+esc((r.prazo||"").split("-").reverse().slice(0,2).join("/"))+'</span></div>'}).join(""):'<div class="empty">Sem rotina vencendo.</div>';
+  var rs=c.resolvidas_48h||[];
+  $("doneSec").hidden=!rs.length;
+  $("done").innerHTML=rs.map(function(r){return '<div class="it SABER"><i class="d"></i><div><div class="t">'+esc(r.titulo||r.t||"")+'</div><div class="m">'+esc(r.evidencia||"")+'</div></div><span class="a"></span></div>'}).join("");
+}
+
+function load(){
+  $("srcTx").textContent="lendo…";$("srcDot").className="dot";
+  return fetch(BRIDGE,{method:"POST",headers:{"content-type":"application/json","x-vicky-sessao":KEY},body:JSON.stringify({acao:"ler"})})
+    .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})})
+    .then(function(x){
+      if(!x.ok){
+        if(x.j&&(x.j.erro==="chave_invalida")){store("vicky_chave",null);$("app").hidden=true;$("gate").hidden=false;return}
+        throw new Error((x.j&&x.j.mensagem)||"falha");
+      }
+      render(x.j);
+      $("srcDot").className="dot ok";
+      $("srcTx").textContent="casa às "+new Date().toLocaleTimeString("pt-BR",{timeZone:TZ,hour:"2-digit",minute:"2-digit"});
+    }).catch(function(e){$("srcDot").className="dot err";$("srcTx").textContent="sem leitura agora"});
+}
+load();
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&!conv)load()});
+
+/* ---------- a bola ---------- */
+var cv=$("orb"),cx=cv.getContext("2d"),mode="idle",level=0,t0=performance.now();
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+function draw(now){
+  var t=(now-t0)/1000,W=cv.width,R=W*0.30;
+  var target=0;
+  if(conv){try{target=mode==="speaking"?conv.getOutputVolume():conv.getInputVolume()}catch(e){}}
+  level+=(Math.min(1,target*2.2)-level)*0.18;
+  cx.clearRect(0,0,W,W);
+  var gold=css("--gold")||"#CDAE74",gold2=css("--gold2")||"#E6CF9E";
+  var breath=mode==="idle"?Math.sin(t*1.2)*0.02:mode==="thinking"?Math.sin(t*4)*0.03:0;
+  var r=R*(1+breath+level*0.22);
+  var g=cx.createRadialGradient(W/2,W/2,r*0.2,W/2,W/2,r*1.6);
+  g.addColorStop(0,gold2);g.addColorStop(0.45,gold);g.addColorStop(1,"rgba(0,0,0,0)");
+  cx.globalAlpha=mode==="idle"?0.55:0.9;cx.fillStyle=g;cx.beginPath();cx.arc(W/2,W/2,r*1.6,0,Math.PI*2);cx.fill();
+  cx.globalAlpha=1;cx.lineWidth=3;cx.strokeStyle=gold;
+  for(var i=0;i<3;i++){cx.beginPath();
+    for(var a=0;a<=Math.PI*2+0.01;a+=0.05){
+      var w=Math.sin(a*3+t*(1.4+i*0.5)+i)*(4+level*26)+Math.cos(a*5-t*(0.9+i*0.3))*(2+level*12);
+      var rr=r*(0.92+i*0.07)+w,x=W/2+Math.cos(a)*rr,y=W/2+Math.sin(a)*rr;
+      a===0?cx.moveTo(x,y):cx.lineTo(x,y)}
+    cx.globalAlpha=0.55-i*0.15;cx.stroke()}
+  cx.globalAlpha=1;
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+
+/* ---------- a voz (ElevenLabs, voz Christine) ---------- */
+var conv=null,muted=false;
+var LABEL={idle:"toque para falar",connecting:"conectando",listening:"ouvindo",speaking:"falando",thinking:"pensando"};
+function setMode(m){mode=m;$("state").textContent=LABEL[m]||m;$("talkBtn").textContent=conv?"Encerrar":"Falar";$("muteBtn").hidden=!conv}
+function start(){
+  if(conv||!window.ElevenLabsClient){if(!window.ElevenLabsClient)$("said").textContent="A voz não carregou. Confira a internet e toque de novo.";return}
+  setMode("connecting");$("said").textContent="";$("heard").textContent="";
+  var opts={agentId:AGENT,dynamicVariables:{secret__sessao:KEY},
+    onConnect:function(){setMode("listening")},
+    onDisconnect:function(){conv=null;muted=false;$("muteBtn").textContent="Silenciar microfone";setMode("idle");load()},
+    onModeChange:function(x){setMode(x&&x.mode==="speaking"?"speaking":"listening")},
+    onMessage:function(x){if(!x||!x.message)return;var txt=String(x.message).replace(/\[[^\]]{1,20}\]\s*/g,"");if(x.source==="ai"){$("said").textContent=txt}else{$("heard").textContent=txt;setMode("thinking")}},
+    onError:function(e){$("said").textContent="A conexão de voz falhou. Toque de novo."}};
+  var C=window.ElevenLabsClient.Conversation;
+  C.startSession(Object.assign({connectionType:"webrtc"},opts))
+    .catch(function(){return C.startSession(Object.assign({connectionType:"websocket"},opts))})
+    .then(function(c){conv=c;setMode("listening")})
+    .catch(function(e){conv=null;setMode("idle");$("said").textContent=/permission|NotAllowed/i.test(String(e))?"Libere o microfone para a Vicky nos Ajustes do Safari.":"Não consegui abrir a voz agora. Toque de novo."});
+}
+function stop(){if(conv){try{conv.endSession()}catch(e){}}}
+$("orbBtn").addEventListener("click",function(){conv?stop():start()});
+$("talkBtn").addEventListener("click",function(){conv?stop():start()});
+$("muteBtn").addEventListener("click",function(){if(!conv)return;muted=!muted;try{conv.setMicMuted(muted)}catch(e){};$("muteBtn").textContent=muted?"Ligar microfone":"Silenciar microfone"});
+})();
+</script>
+</body>
+</html>
